@@ -1,0 +1,112 @@
+[project]
+name = "camera-mock"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pyrefly>=0.63.1",
+    "ruff>=0.15.12",
+]
+
+[tool.ruff]
+line-length = 120
+src = ["src"]
+lint.extend-select = ["ALL"]
+lint.ignore = [
+    "ISC001", # single-line-implicit-string-concatenation
+    "FA102", # future-required-type-annotation
+    "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
+    "E501", # Line too long (X > 120) (форматтер)
+    "COM812", # missing-trailing-comma (форматтер)
+    "TC001", # typing-only-first-party-import
+    "TC003", # typing-only-standard-library-import
+    "PLR0913", # too-many-arguments
+
+    # flake8-annotations
+    "ANN001", # missing-type-function-argument
+    "ANN002", # missing-type-args
+    "ANN003", # missing-type-kwargs
+    "ANN201", # missing-return-type-undocumented-public-function
+    "ANN202", # missing-return-type-private-function
+    "ANN204", # missing-return-type-special-method
+    "ANN205", # missing-return-type-static-method
+    "ANN206", # missing-return-type-class-method
+    "ANN401", # any-type
+
+    # pydocstyle
+    "D",
+    # Ruff-specific rules
+    "RUF001", # ambiguous-unicode-character-string
+    "RUF002", # ambiguous-unicode-character-docstring
+    "RUF003", # ambiguous-unicode-character-comment
+
+    # to-do related things (hyphen to eliminate from search):
+    "TD002", # missing-todo-author
+    "FIX002", # line-contains-todo
+    "TD003", # missing-todo-link
+
+    # tryceratops
+    "TRY401", # verbose-log-message  (иногда в логах удобнее видеть exception name)
+
+    "EM101", # raw-string-in-exception
+    "EM102", # f-string-in-exception
+    "E712", # true-false-comparison (для поддержки peewee) (аналогично будет проблемно и для sqlalchemy)
+    "PLR2004", # magic-value-comparison (можно оставить в игноре)
+    "FBT003", # boolean-positional-value-in-call (для поддержки peewee) (надо посмотреть, не будет ли конфликтовать с sqlalchemy)
+    "N818", # error-suffix-on-exception-name
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"test*" = [
+    "S101",
+    "TID252", # Prefer absolute imports over relative imports from parent modules
+    "PLR0913", # Too many arguments in function definition (7 > 5)
+    "SIM117", # Use a single `with` statement with multiple contexts instead of nested `with` statements
+    "TRY301", # Abstract `raise` to an inner function
+    "TRY002", # Create your own exception
+    "S110", # `try`-`except`-`pass` detected, consider logging the exception
+    "FBT001" # Boolean-typed positional argument in function definition
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+skip-magic-trailing-comma = false
+
+[tool.pyrefly]
+project-includes = ["src", "tests"]
+project-excludes = [
+    "**/.venv/**",
+    "**/venv/**",
+    "**/__pycache__/**",
+    "**/.mypy_cache/**",
+    "**/.pytest_cache/**",
+    "**/.ruff_cache/**",
+]
+search-path = ["."]
+python-version = "3.14"
+
+check-unannotated-defs = false
+infer-return-types = "annotated"
+infer-with-first-use = true
+strict-callable-subtyping = false
+ignore-errors-in-generated-code = true
+use-ignore-files = true
+
+[tool.pyrefly.errors]
+missing-import = false
+
+[[tool.pyrefly.sub-config]]
+matches = "tests/**"
+
+[tool.pyrefly.sub-config.errors]
+bad-assignment = false
+invalid-argument = false
