@@ -5,6 +5,8 @@
 This is a simple mock implementation that supports selecting arbitrary number of streams and acts as an IP camera with ONVIF support.
 It's designed to be used for testing and development purposes during NVR development.
 
+I vibecoded this tool in one evening because I needed something to test my DIY NVR with. It has nothing to do with ONVIF conformance and should be used at your own risk.
+
 ## Requirements
 
 - Python 3.14, managed by `uv`.
@@ -16,19 +18,19 @@ It's designed to be used for testing and development purposes during NVR develop
 Validate one of the bundled examples:
 
 ```bash
-uv run camera-mock validate --config examples/single-device.yaml
+uv run camera-mock validate --config videos/example.yaml
 ```
 
 Print the advertised ONVIF and RTSP endpoints:
 
 ```bash
-uv run camera-mock endpoints --config examples/single-device.yaml --interface 127.0.0.1
+uv run camera-mock endpoints --config videos/example.yaml --interface 127.0.0.1
 ```
 
 Run the mock:
 
 ```bash
-uv run camera-mock run --config examples/single-device.yaml --interface 127.0.0.1
+uv run camera-mock run --config videos/example.yaml --interface 127.0.0.1
 ```
 
 The `--interface` value is used in all advertised ONVIF and RTSP URLs. Use a LAN IP address when another machine or NVR needs to discover and connect to the mock.
