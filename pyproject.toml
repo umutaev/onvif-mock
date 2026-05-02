@@ -4,12 +4,24 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "defusedxml>=0.7.1",
+    "pyyaml>=6.0.3",
+]
+
+[project.scripts]
+camera-mock = "camera_mock.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "pytest>=8.4.2",
     "pyrefly>=0.63.1",
     "ruff>=0.15.12",
+    "onvif-python>=0.2.10",
 ]
 
 [tool.ruff]
@@ -51,6 +63,7 @@ lint.ignore = [
 
     # tryceratops
     "TRY401", # verbose-log-message  (иногда в логах удобнее видеть exception name)
+    "TRY003", # raise-vanilla-args
 
     "EM101", # raw-string-in-exception
     "EM102", # f-string-in-exception
@@ -64,6 +77,10 @@ lint.ignore = [
 "__init__.py" = ["F401"]
 "test*" = [
     "S101",
+    "S106",
+    "S108",
+    "PT009",
+    "PT027",
     "TID252", # Prefer absolute imports over relative imports from parent modules
     "PLR0913", # Too many arguments in function definition (7 > 5)
     "SIM117", # Use a single `with` statement with multiple contexts instead of nested `with` statements
